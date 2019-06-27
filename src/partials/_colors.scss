@@ -1,0 +1,10 @@
+
+$base: #efefef;
+$end: #eeeeee;
+.lightgrey-gradient {
+    background: $base; /* Old browsers */
+    background: -moz-linear-gradient(top, $base 0%, $end 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, $base 0%,$end 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, $base 0%,$end 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$base}', endColorstr='#{$end}',GradientType=0 ); /* IE6-9 */
+}

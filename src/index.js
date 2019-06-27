@@ -1,7 +1,10 @@
+import 'flexboxgrid';
 import '@/main.scss';
 
 import Vue from 'vue';
-import App from '@/js/App.vue';
+
+
+import App from '@/js/App';
 
 new Vue({
   el: '#app',
@@ -9,3 +12,4 @@ new Vue({
 });
 
   
+
