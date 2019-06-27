@@ -75,8 +75,16 @@ module.exports = {
     }),
     new WebpackBuildNotifierPlugin()
   ],
+  // stats: 'errors-only',
   stats: {
-    colors: true
+    children: false,
+    chunks: false,
+    modules: false,
+    providedExports: false,
+    colors: true,
   },
+  // devServer: {
+  //   noInfo: false
+  // },
   devtool: 'source-map'
 };
