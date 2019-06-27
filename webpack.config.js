@@ -1,14 +1,18 @@
 const path = require('path');
 
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const TerserJSPlugin = require('terser-webpack-plugin');
 
 
 
 module.exports = {
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
   entry: './src/index.js',
   output: {
     filename: 'js/app.js',
@@ -44,20 +48,15 @@ module.exports = {
               importLoaders: 1,
             }
           },
-          "sass-loader" ,
-          "postcss-loader"
+          "postcss-loader",
+          "sass-loader" 
         ]
       },
       {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-            }
-          },
+          'css-loader',
           "postcss-loader"
         ]
       }
@@ -73,9 +72,10 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html'
     }),
-    new WebpackBuildNotifierPlugin()
+    new WebpackBuildNotifierPlugin({
+      suppressSuccess: true
+    })
   ],
-  // stats: 'errors-only',
   stats: {
     children: false,
     chunks: false,
@@ -83,8 +83,5 @@ module.exports = {
     providedExports: false,
     colors: true,
   },
-  // devServer: {
-  //   noInfo: false
-  // },
   devtool: 'source-map'
 };
