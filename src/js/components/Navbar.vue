@@ -3,13 +3,11 @@
     <div class="container-fluid">
       <a href="#" class="brand">Madisoft test project</a>
 
-      <button @click="showMobileMenu = !showMobileMenu" class="open">apri menu</button>
+      <button @click="showMobileMenu()" class="open">apri menu</button>
 
-      <div class="nav-menu" :class="{'nav-show': showMobileMenu}">
+      <div id="nav-menu">
         
-        
-
-        <a @click="showMobileMenu = !showMobileMenu" class="close" href="#">&times;</a >
+        <a @click="hideMobileMenu()" class="close" href="#">&times;</a >
 
         <ul>
           <li>
@@ -25,18 +23,42 @@
             <a href="#">Menu item 4</a>
           </li>
         </ul>
-      </div>
+      </div><!--#nav-menu-->
+
     </div>
   </nav>
 </template>
 
 <script>
+import { setTimeout } from 'timers';
 export default {
   data() {
     return {
-        showMobileMenu: false,
-    };
+
+    };   
+  },
+
+  methods: {
+    showMobileMenu(){
+      const menu = document.getElementById('nav-menu');
+      menu.classList.add("nav-showing");
+      
+      setTimeout(() => {
+        menu.classList.add("nav-show");
+      }, 1);
+    },
+    hideMobileMenu(){
+      const menu = document.getElementById('nav-menu');
+      menu.classList.remove("nav-show");
+
+      setTimeout(() => {
+        menu.classList.remove("nav-showing");
+      }, 310);
+    }
   }
+
+
+
 };
 </script>
 
@@ -84,7 +106,7 @@ ul {
         display: block;
     }
 
-  .nav-menu {
+  #nav-menu {
     position: absolute;
     top: 0;
     left: 0;
@@ -93,10 +115,17 @@ ul {
     z-index: 10;
     width: 100%;
 
+    transition: all .3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
     display: none;
+    opacity:0;
+
+    &.nav-showing {
+      display: block;
+    }
 
     &.nav-show {
         display: block;
+        opacity:1;
     }
 
     .close {
