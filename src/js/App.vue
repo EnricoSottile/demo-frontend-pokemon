@@ -12,8 +12,7 @@
               <button class="slide-card-button" @click="showDetailCardMobile = !showDetailCardMobile">show</button>
             </div>
             <div class="card-body">
-              <button @click="getListData();">load</button>
-              <List :list="pokeList" :loading="isLoadingList"></List>
+              <List :list="pokeList" :loading="isLoadingList" @end-of-list="getListData"></List>
             </div>
             <div class="card-footer">
               ...
@@ -99,11 +98,15 @@ export default {
 
   .card {
     height: calc(100vh - 100px); // 100px => 60 nav + 40 margin
+
+    .card-body {
+      overflow-y: scroll;
+    }
   }
 
-      .slide-card-button {
-        display: none;
-      }
+  .slide-card-button {
+    display: none;
+  }
 
 
   // css to handle sliding card

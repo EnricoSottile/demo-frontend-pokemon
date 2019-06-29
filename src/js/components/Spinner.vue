@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       canShow: false,
-      delay: undefined,
+      delay: null,
     }
   },
 
