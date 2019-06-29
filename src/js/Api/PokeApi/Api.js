@@ -26,7 +26,7 @@ class Api {
             this.router.setRoute('getAll', response.data.next);
             return response
         } catch (error) {
-            throw new Error(error);
+            throw error;
         }
         
     }

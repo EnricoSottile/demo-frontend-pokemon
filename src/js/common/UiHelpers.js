@@ -1,11 +1,9 @@
 
 
 class UiHelpers {
-    constructor(){
+    constructor() { }
 
-    }
-
-
+ 
 }
 
 export default UiHelpers

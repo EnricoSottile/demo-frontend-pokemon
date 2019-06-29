@@ -4,10 +4,10 @@
       <li v-for="(val, key) in list" :key="key">{{ val.name }}</li>
     </ul>
 
-    <Intersection @intersect="handleIntersected"></Intersection>
+    <Intersection @intersect="handleIntersected" />
 
     <div class="spinner-holder">
-      <Spinner :show="loading" :immediate="false"></Spinner>
+      <Spinner :show="loading" :immediate="false" />
     </div>
 
   </div>
