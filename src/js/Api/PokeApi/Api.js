@@ -2,7 +2,9 @@ import axios from 'axios'
 import Router from './Router';
 
 
-
+/**
+ * Represents the PokeApi API
+ */
 class Api {
 
     constructor(){
@@ -21,13 +23,12 @@ class Api {
         
         try {
             const response = await axios.get(url);
-
             this.router.setRoute('getAll', response.data.next);
-
             return response
         } catch (error) {
-            return error.response;
+            throw new Error(error);
         }
+        
     }
 
 

@@ -12,7 +12,8 @@
               <button class="slide-card-button" @click="showDetailCardMobile = !showDetailCardMobile">show</button>
             </div>
             <div class="card-body">
-              <List></List>
+              <button @click="getListData();">load</button>
+              <List :list="pokeList" :loading="isLoadingList"></List>
             </div>
             <div class="card-footer">
               ...
@@ -47,7 +48,7 @@ import Navbar from "@/js/components/Navbar";
 import List from "@/js/components/List";
 
 import PokeApi from "@/js/Api/PokeApi/Api";
-import { clearInterval } from 'timers';
+import { clearInterval, setTimeout } from 'timers';
 
 export default {
   components: {
@@ -58,31 +59,35 @@ export default {
   data() {
     return {
       showDetailCardMobile: false,
+      isLoadingList: false,
       
       pokeApi: new PokeApi(),
+      pokeList: [],
+      
     };
   },
 
+
   methods: {
-    getAll(){
-      let res = this.pokeApi.getAll();
-      res.then(r => console.log(r))
-      .catch(err => console.log(err));
-    }
+
+    async getListData(){
+      this.isLoadingList = true;
+
+      try {
+        const response = await this.pokeApi.getAll();
+        this.pokeList = this.pokeList.concat(response.data.results);
+      } catch (error) {
+          // TODO
+          console.log("handle error: " + error);
+      } finally {
+        this.isLoadingList = false;
+      }
+
+    },
+
   },
 
   mounted(){
-    const t = this;
-    let limit = 0;
-
-    let a = setInterval(() => {
-      if (limit > 3) {
-        window.clearInterval(a);
-      }
-      limit++;
-      t.getAll();
-    }, 1500);
-
   }
 
 
@@ -90,6 +95,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 
   .card {
     height: calc(100vh - 100px); // 100px => 60 nav + 40 margin

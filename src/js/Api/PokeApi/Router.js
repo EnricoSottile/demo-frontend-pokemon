@@ -1,5 +1,8 @@
 const baseUrl = "https://pokeapi.co/api/v2/";
 
+/**
+ * PokeApi endpoints Facade with a simple paginator
+ */
 class Router {
 
     constructor(){
@@ -12,7 +15,7 @@ class Router {
      */
     _setRoutes(){
         return {
-            getAll: 'pokemon/?offset=0&limit=20',
+            getAll: 'pokemon/?offset=0&limit=10',
         }
     }
 
