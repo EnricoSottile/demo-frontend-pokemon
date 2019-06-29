@@ -9,7 +9,7 @@
           <div class="card">
             <div class="card-header">
               ....
-              <button @click="showDetailCardMobile = !showDetailCardMobile">show</button>
+              <button class="slide-card-button" @click="showDetailCardMobile = !showDetailCardMobile">show</button>
             </div>
             <div class="card-body">
               <List></List>
@@ -26,7 +26,7 @@
           <div class="card">
             <div class="card-header">
               ....
-              <button @click="showDetailCardMobile = !showDetailCardMobile">hide</button>
+              <button class="slide-card-button" @click="showDetailCardMobile = !showDetailCardMobile">hide</button>
             </div>
             <div class="card-body">
               ...
@@ -46,6 +46,9 @@
 import Navbar from "@/js/components/Navbar";
 import List from "@/js/components/List";
 
+import PokeApi from "@/js/Api/PokeApi/Api";
+import { clearInterval } from 'timers';
+
 export default {
   components: {
     Navbar,
@@ -54,9 +57,35 @@ export default {
 
   data() {
     return {
-      showDetailCardMobile: false
+      showDetailCardMobile: false,
+      
+      pokeApi: new PokeApi(),
     };
+  },
+
+  methods: {
+    getAll(){
+      let res = this.pokeApi.getAll();
+      res.then(r => console.log(r))
+      .catch(err => console.log(err));
+    }
+  },
+
+  mounted(){
+    const t = this;
+    let limit = 0;
+
+    let a = setInterval(() => {
+      if (limit > 3) {
+        window.clearInterval(a);
+      }
+      limit++;
+      t.getAll();
+    }, 1500);
+
   }
+
+
 };
 </script>
 
@@ -66,11 +95,19 @@ export default {
     height: calc(100vh - 100px); // 100px => 60 nav + 40 margin
   }
 
+      .slide-card-button {
+        display: none;
+      }
+
 
   // css to handle sliding card
   @media only screen and (max-width: 64em) {
       .row {
         position:relative;
+      }
+
+      .slide-card-button {
+        display: block;
       }
 
       #detail-column {

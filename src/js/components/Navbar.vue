@@ -39,6 +39,10 @@ export default {
   },
 
   methods: {
+
+    // Vue's Transition component has specific requirement
+    // and does not work with the way I made the menu.
+    // Therefore I do a simple vanilla js/css to animate nav
     showMobileMenu(){
       const menu = document.getElementById('nav-menu');
       menu.classList.add("nav-showing");
@@ -53,8 +57,10 @@ export default {
 
       setTimeout(() => {
         menu.classList.remove("nav-showing");
-      }, 310);
+      }, 310); // css animation time .3s
     }
+
+
   }
 
 
