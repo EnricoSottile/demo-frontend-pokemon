@@ -26,7 +26,6 @@ class Api {
      async getAll(){
         let item;
         const url = this.router.getRoute('getAll');
-
         const cacheName = IDBConfig.INDEX.objectStoreName;
 
         try {
@@ -61,9 +60,24 @@ class Api {
      * @param {String} url 
      */
     async getPokemon(url){
+        let item;
+        const cacheName = IDBConfig.DETAIL.objectStoreName;
+
         try {
-            const response = await axios.get(url);
-            return response
+            item = await this.database.findOrFail(cacheName, url);
+            if (item === 404) {
+                item = await axios.get(url);
+                
+                await this.database.cacheItem(cacheName, {
+                              url,
+                              date: new Date(),
+                              data: item.data
+                          });
+
+            }
+
+            return item;
+
         } catch (error) {
             throw error;
         }

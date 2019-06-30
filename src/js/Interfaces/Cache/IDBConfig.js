@@ -9,4 +9,11 @@ export const IDBConfig =
                 autoIncrement: false,
             }
         },
+        DETAIL: {
+            objectStoreName: 'pokemon_detail',
+            options: {
+                keyPath: 'url',
+                autoIncrement: false,
+            }
+        },
 };  
