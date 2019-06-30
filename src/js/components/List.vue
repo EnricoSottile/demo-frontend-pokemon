@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <li v-for="(val, key) in list" :key="key">{{ val.name }}</li>
+      <li @click="itemClicked(val)" v-for="(val, key) in list" :key="key">{{ val.name }}</li>
     </ul>
 
     <Intersection @intersect="handleIntersected" />
@@ -32,6 +32,9 @@ export default {
               this.$emit('end-of-list');
           }
           
+      },
+      itemClicked(value){
+        this.$emit('item-clicked', value);
       }
   }
 

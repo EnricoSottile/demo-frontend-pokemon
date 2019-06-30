@@ -21,7 +21,7 @@ class Router {
 
     /**
      * Returns the full route
-     * @param String routeName 
+     * @param {String} routeName 
      */
     getRoute(routeName){
         let route = this.routes[routeName];

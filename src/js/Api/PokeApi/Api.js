@@ -31,6 +31,19 @@ class Api {
         
     }
 
+    /**
+     * 
+     * @param {String} url 
+     */
+    async getPokemon(url){
+        try {
+            const response = await axios.get(url);
+            return response
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
 
 }

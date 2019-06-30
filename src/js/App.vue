@@ -16,7 +16,11 @@
               >show</button>
             </div>
             <div class="card-body">
-              <List :list="pokeList" :loading="isLoadingList" @end-of-list="getListData"/>
+              <List 
+                :list="pokeList" 
+                :loading="isLoadingList" 
+                @end-of-list="getListData"
+                @item-clicked="getItemDetails"/>
             </div>
             <div class="card-footer">...</div>
           </div>
@@ -35,7 +39,11 @@
                 @click="showDetailCardMobile = !showDetailCardMobile"
               >hide</button>
             </div>
-            <div class="card-body">...</div>
+            <div class="card-body">
+              <p v-if="pokemon">{{pokemon.forms}}</p>
+
+              <pre>{{ pokemon }}</pre>
+            </div>
             <div class="card-footer">...</div>
           </div>
         </div>
@@ -65,12 +73,14 @@ export default {
 
       pokeApi: new PokeApi(),
       pokeList: [],
+      pokemon: {},
 
       notifications: []
     };
   },
 
   methods: {
+
     async getListData() {
       this.isLoadingList = true;
 
@@ -83,14 +93,38 @@ export default {
           group: "global",
           title: "Ops. An error occured!",
           text: error,
-          type: "success",
+          type: "warn",
           duration: 5000
         });
-        
+
       } finally {
         this.isLoadingList = false;
       }
+    },
+
+    async getItemDetails(value){
+      // this.isLoadingList = true;
+
+      try {
+        const response = await this.pokeApi.getPokemon(value.url);
+        this.pokemon = response.data;
+      } catch (error) {
+
+        this.$notify({
+          group: "global",
+          title: "Ops. An error occured!",
+          text: error,
+          type: "error",
+          duration: 5000
+        });
+
+      } finally {
+        // this.isLoadingList = false;
+      }
+
+
     }
+
   },
 
   mounted() {}
