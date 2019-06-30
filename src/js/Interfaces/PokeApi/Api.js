@@ -5,6 +5,7 @@ import IDBDatabase from '@/js/Interfaces/Cache/IDBDatabase';
 import { IDBConfig } from '@/js/Interfaces/Cache/IDBConfig'
 
 /**
+ * 
  * Represents the PokeApi API
  */
 class Api {
@@ -24,30 +25,13 @@ class Api {
      * returns a chunked list (pagination available and implemented)
      */
      async getAll(){
-        let item;
         const url = this.router.getRoute('getAll');
         const cacheName = IDBConfig.INDEX.objectStoreName;
 
         try {
-            item = await this.database.findOrFail(cacheName, url);
-           
-            if (item === 404) {
-                item = await axios.get(url);
-                
-                await this.database.cacheItem(cacheName, {
-                              url,
-                              date: new Date(),
-                              data: {
-                                  next: item.data.next,
-                                  results: item.data.results
-                              }
-                          });
-
-            }
-            
+            const item = await this._getLiveOrCached(cacheName, url);            
             this.router.setRoute('getAll', item.data.next);
             return item;
-
         } catch (error) {
             throw error;
         }
@@ -60,24 +44,11 @@ class Api {
      * @param {String} url 
      */
     async getPokemon(url){
-        let item;
         const cacheName = IDBConfig.DETAIL.objectStoreName;
 
         try {
-            item = await this.database.findOrFail(cacheName, url);
-            if (item === 404) {
-                item = await axios.get(url);
-                
-                await this.database.cacheItem(cacheName, {
-                              url,
-                              date: new Date(),
-                              data: item.data
-                          });
-
-            }
-
+            const item = await this._getLiveOrCached(cacheName, url);
             return item;
-
         } catch (error) {
             throw error;
         }
@@ -85,23 +56,28 @@ class Api {
 
 
 
+    /**
+     * Dry/helper function for get requests
+     * @param {String} cacheName 
+     * @param {String} url 
+     */
+    async _getLiveOrCached(cacheName, url){
+        let item = await this.database.findOrFail(cacheName, url);
+           
+        if (item === 404) {
+            item = await axios.get(url);
+            
+            await this.database.cacheItem(cacheName, {
+                          url,
+                          data: item.data
+                      });
+        }
+        
+        return item;
+    }
+
+
+
 }
 
 export default Api
-
-
-
-
-// try {
-//     const item = await window.idb.findOrFail(CACHE_INDEX_NAME, url);
-  
-//   } catch (error) {
-
-
-
-//       const newItem = await window.idb.cacheItem('pokemon-index', {
-//           url: 'abc/ciao/3',
-//           date: new Date(),
-//           body: '…',
-//       });
-//   }

@@ -67,12 +67,12 @@ class IDBDatabase {
      * @param {Date} date
      * @param {Mixed} data
      */
-    async cacheItem(objectStoreName, {url, date, data}){
+    async cacheItem(objectStoreName, {url, data}){
         const db = await openDB(DB_NAME, DB_VERSION);
         
         await db.add(objectStoreName, {
             url,
-            date, 
+            date: new Date(), 
             data
         });
     }
