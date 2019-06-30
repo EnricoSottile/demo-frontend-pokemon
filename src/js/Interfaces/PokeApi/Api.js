@@ -2,7 +2,7 @@ import axios from 'axios'
 import Router from './Router';
 
 import IDBDatabase from '@/js/Interfaces/Cache/IDBDatabase';
-const CACHE_INDEX_NAME = 'pokemon_index';
+import { IDBConfig } from '@/js/Interfaces/Cache/IDBConfig'
 
 /**
  * Represents the PokeApi API
@@ -27,14 +27,15 @@ class Api {
         let item;
         const url = this.router.getRoute('getAll');
 
+        const cacheName = IDBConfig.INDEX.objectStoreName;
+
         try {
-            item = await this.database.findOrFail(CACHE_INDEX_NAME, url);
+            item = await this.database.findOrFail(cacheName, url);
            
             if (item === 404) {
                 item = await axios.get(url);
                 
-                
-                await this.database.cacheItem(CACHE_INDEX_NAME, {
+                await this.database.cacheItem(cacheName, {
                               url,
                               date: new Date(),
                               data: {
@@ -42,7 +43,6 @@ class Api {
                                   results: item.data.results
                               }
                           });
-
 
             }
             
