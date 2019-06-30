@@ -1,8 +1,10 @@
 import 'flexboxgrid';
 import '@/main.scss';
 
+
 import UiHelpers from '@/js/common/UiHelpers';
 window.UiHelpers = UiHelpers;
+
 
 
 import Vue from 'vue';
@@ -21,6 +23,10 @@ new Vue({
   el: '#app',
   render: h => h(App),
 });
+
+
+
+
 
 
 

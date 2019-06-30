@@ -1,4 +1,4 @@
-const baseUrl = "https://pokeapi.co/api/v2/";
+const BASE_URL = "https://pokeapi.co/api/v2/";
 
 /**
  * PokeApi endpoints Facade with a simple paginator
@@ -25,7 +25,7 @@ class Router {
      */
     getRoute(routeName){
         let route = this.routes[routeName];
-        return baseUrl + route;
+        return BASE_URL + route;
     }
 
 
@@ -36,7 +36,7 @@ class Router {
      * @param String routeName 
      */
     setRoute(routeName, newRoute){
-        newRoute = newRoute.split(baseUrl)[1];
+        newRoute = newRoute.split(BASE_URL)[1];
         this.routes[routeName] = newRoute;
     }
 

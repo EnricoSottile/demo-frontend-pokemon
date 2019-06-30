@@ -57,11 +57,11 @@
 import Navbar from "@/js/components/Navbar";
 import List from "@/js/components/List";
 
-import PokeApi from "@/js/Api/PokeApi/Api";
+import PokeApi from "@/js/Interfaces/PokeApi/Api";
 import { clearInterval, setTimeout } from "timers";
 
 export default {
-  components: {
+  components: {  
     Navbar,
     List
   },
