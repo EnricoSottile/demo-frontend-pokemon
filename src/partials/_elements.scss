@@ -19,11 +19,13 @@ $border: 1px solid #eee;
   }
 
   .card-header {
+    position: relative;
     padding: 1rem 1.5rem;
     border-bottom: $border;
   }
   .card-body {
     padding: 1rem 1.5rem;
+    height: 100%;
   }
   .card-footer {
     padding: 1rem 1.5rem;

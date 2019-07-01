@@ -5,7 +5,6 @@
     <div class="container-fluid app-content">
       <notifications group="global"/>
 
-
       <div class="row">
         <div class="col-xs-12 col-md-6" id="list-column">
           <div class="card">
@@ -29,14 +28,17 @@
           <div class="card">
             <div class="card-header">
               <h1 class="card-title">Sezione dettaglio</h1>
-              <button class="slide-card-button" @click="handleUnslideCardWasClicked">hide</button>
+              <a href="#" class="slide-card-button" @click="handleUnslideCardWasClicked">
+                <span>&times;</span>
+              </a>
             </div>
             <div class="card-body">
-              <Detail 
-              v-show="canRenderDetail" 
-              :item="pokemon" 
-              :loading="isLoadingDetail"
-              @content-ready="handleDetailContentIsReady"/>
+              <Detail
+                v-show="canRenderDetail"
+                :pokemon="pokemon"
+                :loading="isLoadingDetail"
+                @content-ready="handleDetailContentIsReady"
+              />
             </div>
             <div class="card-footer">...</div>
           </div>
@@ -48,7 +50,6 @@
 </template>
 
 <script>
-
 import Navbar from "@/js/components/Navbar";
 import List from "@/js/components/List";
 import Detail from "@/js/components/Detail";
@@ -57,20 +58,19 @@ import VisitsRecorder from "@/js/components/VisitsRecorder";
 import PokeApi from "@/js/Interfaces/PokeApi/Api";
 import { clearInterval, setTimeout } from "timers";
 
-import IDBDatabase from '@/js/Interfaces/Cache/IDBDatabase';
-import { IDBConfig } from '@/js/Interfaces/Cache/IDBConfig'
+import IDBDatabase from "@/js/Interfaces/Cache/IDBDatabase";
+import { IDBConfig } from "@/js/Interfaces/Cache/IDBConfig";
 
 export default {
-
   mixins: [VisitsRecorder],
-  
+
   components: {
     Navbar,
     List,
     Detail
   },
 
-  mounted(){
+  mounted() {
     this.loadCachedVisits();
   },
 
@@ -86,15 +86,13 @@ export default {
       pokeList: [],
       pokemon: {},
 
-      notifications: [],
+      notifications: []
     };
   },
 
   computed: {},
-  
 
   methods: {
-
     // ========================================
     // UI
     isMobile() {
@@ -113,26 +111,24 @@ export default {
       this.slideCard = true;
       this.getItemDetails(value);
 
-      if ( this.isMobile() === true) {
-        setTimeout(() => this.canRenderDetail = true, 350);
+      if (this.isMobile() === true) {
+        setTimeout(() => (this.canRenderDetail = true), 350);
       } else {
-        this.canRenderDetail = true
+        this.canRenderDetail = true;
       }
     },
 
-    handleUnslideCardWasClicked(){
+    handleUnslideCardWasClicked() {
       this.slideCard = false;
-      setTimeout(() => this.canRenderDetail = false, 300);
+      setTimeout(() => (this.canRenderDetail = false), 300);
     },
 
-    handleDetailContentIsReady(value){
+    handleDetailContentIsReady(value) {
       this.addVisitRecord(value.name);
     },
 
-
     // ========================================
     // AJAX
-
 
     /**
      *
@@ -177,10 +173,8 @@ export default {
       } finally {
         this.isLoadingDetail = false;
       }
-    },
-  },
-
-
+    }
+  }
 };
 </script>
 
@@ -195,6 +189,30 @@ export default {
 
 .slide-card-button {
   display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  left: auto;
+  margin: auto;
+  font-weight: bolder;
+  line-height: 1;
+  text-align: center;
+  color: cadetblue;
+
+  justify-content: center;
+  align-items: center;
+
+  span {
+    width: 30px;
+    font-size: 30px;
+    line-height: 1;
+    height: 30px;
+  }
+
+  &:hover {
+    color: darken(cadetblue, 10%);
+  }
 }
 
 // css to handle sliding card
@@ -205,7 +223,7 @@ export default {
   }
 
   .slide-card-button {
-    display: block;
+    display: flex;
   }
 
   #detail-column {
