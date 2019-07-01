@@ -52,6 +52,7 @@
 import Navbar from "@/js/components/Navbar";
 import List from "@/js/components/List";
 import Detail from "@/js/components/Detail";
+import VisitsRecorder from "@/js/components/VisitsRecorder";
 
 import PokeApi from "@/js/Interfaces/PokeApi/Api";
 import { clearInterval, setTimeout } from "timers";
@@ -60,6 +61,9 @@ import IDBDatabase from '@/js/Interfaces/Cache/IDBDatabase';
 import { IDBConfig } from '@/js/Interfaces/Cache/IDBConfig'
 
 export default {
+
+  mixins: [VisitsRecorder],
+  
   components: {
     Navbar,
     List,
@@ -83,7 +87,6 @@ export default {
       pokemon: {},
 
       notifications: [],
-      visits: {},
     };
   },
 
@@ -125,33 +128,6 @@ export default {
     handleDetailContentIsReady(value){
       this.addVisitRecord(value.name);
     },
-
-    // keep track of visits to each item 
-    addVisitRecord(name) {
-      Vue.set(this.visits, name, new Date() );
-      
-      const cacheName = window.idbDatabase.config.VISITS.objectStoreName;
-      window.idbDatabase.addOrOverwrite(cacheName, name, {
-        name,
-        value: new Date(),
-        });
-
-    },
-
-    async loadCachedVisits(){
-      const cacheName = window.idbDatabase.config.VISITS.objectStoreName;
-      const visits = await window.idbDatabase.getAll(cacheName);
-      if (visits !== 404) {
-        
-        for(let key in visits) {
-          let item = visits[key];
-          Vue.set(this.visits, item.name, item.value);
-        }
-
-      }
-
-    },
-
 
 
     // ========================================
