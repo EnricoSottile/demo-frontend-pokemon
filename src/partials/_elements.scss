@@ -12,6 +12,12 @@ $border: 1px solid #eee;
   flex-direction: column;
   justify-content: space-between;
 
+  .card-title {
+    margin:0;
+    font-weight:lighter;
+    font-size:1.8rem;
+  }
+
   .card-header {
     padding: 1rem 1.5rem;
     border-bottom: $border;

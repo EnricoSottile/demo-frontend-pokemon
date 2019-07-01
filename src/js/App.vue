@@ -9,7 +9,7 @@
         <div class="col-xs-12 col-md-6" id="list-column">
           <div class="card">
             <div class="card-header">
-              <h2>Lista con infinite scroll</h2>
+              <h1 class="card-title">Lista con infinite scroll</h1>
               <button
                 class="slide-card-button"
                 @click="showDetailCardMobile = !showDetailCardMobile"
@@ -34,7 +34,7 @@
         >
           <div class="card">
             <div class="card-header">
-              <h2>Sezione dettaglio</h2>
+              <h1 class="card-title">Sezione dettaglio</h1>
               <button
                 class="slide-card-button"
                 @click="showDetailCardMobile = !showDetailCardMobile"

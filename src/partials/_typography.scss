@@ -1,3 +1,44 @@
-body {
+html, body {
     font-family: 'Lato', sans-serif;
+    font-size:16px;
+    color: $text;
 }   
+
+p {
+    font-size:1rem;
+}
+
+small {
+    font-size:1rem;
+    color: lighten($secondary-text, 30%);
+}
+
+h1 {
+    font-size:3rem;
+    color: $secondary-text;
+}
+
+h2 {
+    font-size:2.5rem;
+    color: $secondary-text;
+}
+
+h3 {
+    font-size:2rem;
+    color: $secondary-text;
+}
+
+h4 {
+    font-size:1.5rem;
+    color: $secondary-text;
+}
+
+h5 {
+    font-size:1.2rem;
+    color: $secondary-text;
+}
+
+h6 {
+    font-size:1rem;
+    color: $secondary-text;
+}
