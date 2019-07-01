@@ -10,43 +10,27 @@
           <div class="card">
             <div class="card-header">
               <h1 class="card-title">Lista con infinite scroll</h1>
-              <button
-                class="slide-card-button"
-                @click="showDetailCardMobile = !showDetailCardMobile"
-              >show</button>
             </div>
             <div class="card-body">
               <List
                 :list="pokeList"
                 :loading="isLoadingList"
                 @end-of-list="getListData"
-                @item-clicked="getItemDetails"
+                @item-clicked="handleListItemClicked"
               />
             </div>
             <div class="card-footer">...</div>
           </div>
           <!--/card-->
         </div>
-        <div
-          class="col-xs-12 col-md-6"
-          id="detail-column"
-          :class="{'slide-in': showDetailCardMobile}"
-        >
+        <div class="col-xs-12 col-md-6" id="detail-column" :class="{'slide-in': slideCard}">
           <div class="card">
             <div class="card-header">
               <h1 class="card-title">Sezione dettaglio</h1>
-              <button
-                class="slide-card-button"
-                @click="showDetailCardMobile = !showDetailCardMobile"
-              >hide</button>
+              <button class="slide-card-button" @click="handleUnslideCardWasClicked">hide</button>
             </div>
             <div class="card-body">
-
-
-              <Detail 
-              :item="pokemon"
-              :loading="isLoadingDetail"/>
-
+              <Detail v-if="canRenderDetail" :item="pokemon" :loading="isLoadingDetail"/>
             </div>
             <div class="card-footer">...</div>
           </div>
@@ -58,6 +42,7 @@
 </template>
 
 <script>
+
 import Navbar from "@/js/components/Navbar";
 import List from "@/js/components/List";
 import Detail from "@/js/components/Detail";
@@ -74,7 +59,9 @@ export default {
 
   data() {
     return {
-      showDetailCardMobile: false,
+      slideCard: false,
+      canRenderDetail: false,
+
       isLoadingList: false,
       isLoadingDetail: false,
 
@@ -86,7 +73,45 @@ export default {
     };
   },
 
+  computed: {},
+
   methods: {
+
+    // ========================================
+    // UI
+    isMobile() {
+      const remToPx = 16;
+      return window.innerWidth < 64 * remToPx;
+    },
+
+    /**
+     * Immediately calls ajax request function
+     *
+     * If window is in mobile range
+     * delays render for a smoother sliding
+     *
+     */
+    handleListItemClicked(value) {
+      this.slideCard = true;
+      this.getItemDetails(value);
+
+      if ( this.isMobile() === true) {
+        setTimeout(() => this.canRenderDetail = true, 350);
+      } else {
+        this.canRenderDetail = true
+      }
+    },
+
+    handleUnslideCardWasClicked(){
+      this.slideCard = false;
+      setTimeout(() => this.canRenderDetail = false, 300);
+    },
+
+
+    // ========================================
+    // AJAX
+
+
     /**
      *
      */
@@ -108,7 +133,6 @@ export default {
         this.isLoadingList = false;
       }
     },
-
 
     /**
      *
@@ -132,9 +156,6 @@ export default {
         this.isLoadingDetail = false;
       }
     }
-
-
-
   },
 
   mounted() {}
@@ -155,6 +176,7 @@ export default {
 }
 
 // css to handle sliding card
+// 64 rem is 1024px
 @media only screen and (max-width: 64em) {
   .row {
     position: relative;

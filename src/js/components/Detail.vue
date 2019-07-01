@@ -4,7 +4,7 @@
 
         <div v-if="!itemIsEmpty">
             <h3>{{item.forms}}</h3>
-            <pre>{{ item }}</pre>
+            <pre>{{ item.abilities }}</pre>
         </div>
     
 

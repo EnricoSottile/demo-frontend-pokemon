@@ -3,3 +3,10 @@
 @import "partials/typography.scss";  
 @import "partials/elements";
    
+
+@media only screen and (max-width: 64em) {
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

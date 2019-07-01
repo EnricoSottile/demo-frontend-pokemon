@@ -83,5 +83,9 @@ module.exports = {
     providedExports: false,
     colors: true,
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
+  devServer: {
+    host: '0.0.0.0',//your ip address
+    port: 8080
+  }
 };

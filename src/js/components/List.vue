@@ -2,6 +2,7 @@
   <div>
     <ul>
       <li v-for="(val, key) in list" :key="key">
+
         <h5 class="list-title">{{ val.name }}</h5>
         
         <p class="list-info">
@@ -18,7 +19,7 @@
 
         <a class="item-click" href="#" @click="itemClicked(val)">
           <i>&rang;</i>
-      </a>
+        </a>
         
       </li>
     </ul>
@@ -104,6 +105,10 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @media only screen and (max-width: 64em) {
+        width:20%;
+    }
 
     i {
       font-style: normal;
