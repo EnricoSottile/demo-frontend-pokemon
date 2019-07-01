@@ -40,6 +40,8 @@ class Api {
 
 
     /**
+     * retrieves data from PokeApi
+     * returns an object
      * 
      * @param {String} url 
      */
@@ -58,6 +60,9 @@ class Api {
 
     /**
      * Dry/helper function for get requests
+     * Returns cached item if found
+     * Else returns a live one then caches it
+     * 
      * @param {String} cacheName 
      * @param {String} url 
      */

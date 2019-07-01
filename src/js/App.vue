@@ -9,18 +9,19 @@
         <div class="col-xs-12 col-md-6" id="list-column">
           <div class="card">
             <div class="card-header">
-              ....
+              <h2>Lista con infinite scroll</h2>
               <button
                 class="slide-card-button"
                 @click="showDetailCardMobile = !showDetailCardMobile"
               >show</button>
             </div>
             <div class="card-body">
-              <List 
-                :list="pokeList" 
-                :loading="isLoadingList" 
+              <List
+                :list="pokeList"
+                :loading="isLoadingList"
                 @end-of-list="getListData"
-                @item-clicked="getItemDetails"/>
+                @item-clicked="getItemDetails"
+              />
             </div>
             <div class="card-footer">...</div>
           </div>
@@ -33,16 +34,19 @@
         >
           <div class="card">
             <div class="card-header">
-              ....
+              <h2>Sezione dettaglio</h2>
               <button
                 class="slide-card-button"
                 @click="showDetailCardMobile = !showDetailCardMobile"
               >hide</button>
             </div>
             <div class="card-body">
-              <p v-if="pokemon">{{pokemon.forms}}</p>
 
-              <pre>{{ pokemon }}</pre>
+
+              <Detail 
+              :item="pokemon"
+              :loading="isLoadingDetail"/>
+
             </div>
             <div class="card-footer">...</div>
           </div>
@@ -56,20 +60,23 @@
 <script>
 import Navbar from "@/js/components/Navbar";
 import List from "@/js/components/List";
+import Detail from "@/js/components/Detail";
 
 import PokeApi from "@/js/Interfaces/PokeApi/Api";
 import { clearInterval, setTimeout } from "timers";
 
 export default {
-  components: {  
+  components: {
     Navbar,
-    List
+    List,
+    Detail
   },
 
   data() {
     return {
       showDetailCardMobile: false,
       isLoadingList: false,
+      isLoadingDetail: false,
 
       pokeApi: new PokeApi(),
       pokeList: [],
@@ -80,7 +87,9 @@ export default {
   },
 
   methods: {
-
+    /**
+     *
+     */
     async getListData() {
       this.isLoadingList = true;
 
@@ -88,28 +97,6 @@ export default {
         const response = await this.pokeApi.getAll();
         this.pokeList = this.pokeList.concat(response.data.results);
       } catch (error) {
-
-        this.$notify({
-          group: "global",
-          title: "Ops. An error occured!",
-          text: error,
-          type: "warn",
-          duration: 5000
-        });
-
-      } finally {
-        this.isLoadingList = false;
-      }
-    },
-
-    async getItemDetails(value){
-      // this.isLoadingList = true;
-
-      try {
-        const response = await this.pokeApi.getPokemon(value.url);
-        this.pokemon = response.data;
-      } catch (error) {
-
         this.$notify({
           group: "global",
           title: "Ops. An error occured!",
@@ -117,13 +104,36 @@ export default {
           type: "error",
           duration: 5000
         });
-
       } finally {
-        // this.isLoadingList = false;
+        this.isLoadingList = false;
       }
+    },
 
 
+    /**
+     *
+     */
+    async getItemDetails(value) {
+      this.isLoadingDetail = true;
+      this.pokemon = {};
+
+      try {
+        const response = await this.pokeApi.getPokemon(value.url);
+        this.pokemon = response.data;
+      } catch (error) {
+        this.$notify({
+          group: "global",
+          title: "Ops. An error occured!",
+          text: error,
+          type: "error",
+          duration: 5000
+        });
+      } finally {
+        this.isLoadingDetail = false;
+      }
     }
+
+
 
   },
 
