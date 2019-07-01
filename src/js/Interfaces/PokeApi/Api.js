@@ -1,9 +1,6 @@
 import axios from 'axios'
 import Router from './Router';
 
-import IDBDatabase from '@/js/Interfaces/Cache/IDBDatabase';
-import { IDBConfig } from '@/js/Interfaces/Cache/IDBConfig'
-
 /**
  * 
  * Represents the PokeApi API
@@ -12,9 +9,7 @@ class Api {
 
     constructor(){
         this.router = new Router();
-        this.database = new IDBDatabase();
-
-        this.database.setup();
+        this.database = window.idbDatabase;
     }
 
 
@@ -26,7 +21,7 @@ class Api {
      */
      async getAll(){
         const url = this.router.getRoute('getAll');
-        const cacheName = IDBConfig.INDEX.objectStoreName;
+        const cacheName = this.database.config.INDEX.objectStoreName;
 
         try {
             const item = await this._getLiveOrCached(cacheName, url);            
@@ -46,7 +41,7 @@ class Api {
      * @param {String} url 
      */
     async getPokemon(url){
-        const cacheName = IDBConfig.DETAIL.objectStoreName;
+        const cacheName = this.database.config.DETAIL.objectStoreName;
 
         try {
             const item = await this._getLiveOrCached(cacheName, url);

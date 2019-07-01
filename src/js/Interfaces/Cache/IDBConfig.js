@@ -16,4 +16,11 @@ export const IDBConfig =
                 autoIncrement: false,
             }
         },
+        VISITS: {
+            objectStoreName: 'pokemon_visits',
+            options: {
+                keyPath: 'name',
+                autoIncrement: false,
+            }
+        }
 };  

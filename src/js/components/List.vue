@@ -99,10 +99,6 @@ li {
 
   .list-info {
     margin: 5px 0;
-
-    small {
-      font-weight: bolder;
-    }
   }
 
   .item-click {

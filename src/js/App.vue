@@ -56,11 +56,18 @@ import Detail from "@/js/components/Detail";
 import PokeApi from "@/js/Interfaces/PokeApi/Api";
 import { clearInterval, setTimeout } from "timers";
 
+import IDBDatabase from '@/js/Interfaces/Cache/IDBDatabase';
+import { IDBConfig } from '@/js/Interfaces/Cache/IDBConfig'
+
 export default {
   components: {
     Navbar,
     List,
     Detail
+  },
+
+  mounted(){
+    this.loadCachedVisits();
   },
 
   data() {
@@ -81,6 +88,7 @@ export default {
   },
 
   computed: {},
+  
 
   methods: {
 
@@ -119,9 +127,29 @@ export default {
     },
 
     // keep track of visits to each item 
-    // TODO: cache 
     addVisitRecord(name) {
       Vue.set(this.visits, name, new Date() );
+      
+      const cacheName = window.idbDatabase.config.VISITS.objectStoreName;
+      window.idbDatabase.addOrOverwrite(cacheName, name, {
+        name,
+        value: new Date(),
+        });
+
+    },
+
+    async loadCachedVisits(){
+      const cacheName = window.idbDatabase.config.VISITS.objectStoreName;
+      const visits = await window.idbDatabase.getAll(cacheName);
+      if (visits !== 404) {
+        
+        for(let key in visits) {
+          let item = visits[key];
+          Vue.set(this.visits, item.name, item.value);
+        }
+
+      }
+
     },
 
 

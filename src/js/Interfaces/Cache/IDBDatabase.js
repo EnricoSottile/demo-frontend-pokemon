@@ -7,18 +7,22 @@ const CACHE_DURATION_MINUTES = 30;
 
 class IDBDatabase {
     
+    constructor(){
+        this.config = IDBConfig;
+    }
 
 
     /**
      * Initializes the database
      */
     async setup() {
+        const self = this;
         const db = await openDB(DB_NAME, DB_VERSION, {
             upgrade(db) {
 
                 // creates objectStores
-                for(let key in IDBConfig) {
-                    let config = IDBConfig[key];
+                for(let key in self.config) {
+                    let config = self.config[key];
                     if (!db.objectStoreNames.contains(config.objectStoreName)) {
                         db.createObjectStore(config.objectStoreName, config.options);
                     }
@@ -27,10 +31,15 @@ class IDBDatabase {
             },
         });
 
-
-
     }
 
+
+    async getAll(objectStoreName){
+        const db = await openDB(DB_NAME, DB_VERSION);
+        const items = await db.getAll(objectStoreName);
+
+        return items === undefined ? 404 : items;
+    }
 
     /**
      * Looks for a resource in the Db
@@ -59,21 +68,46 @@ class IDBDatabase {
     }
 
 
+
+    /**
+     * 
+     * @param {String} objectStoreName 
+     * @param {String} keyPathString 
+     * @param {Object} dataObject 
+     */
+    async addOrOverwrite(objectStoreName, keyPathString, dataObject){
+        const db = await openDB(DB_NAME, DB_VERSION);
+        const item = await db.get(objectStoreName, keyPathString);
+
+        console.log(objectStoreName, keyPathString, dataObject)
+        
+        const decoratedDataObject = {
+            ...dataObject,
+            date: new Date(), 
+        };
+
+        if (item === undefined) {
+            await db.add(objectStoreName, decoratedDataObject);
+        } else {
+            await db.delete(objectStoreName, keyPathString);
+            await db.add(objectStoreName, decoratedDataObject);
+        }
+    }
+
+
     /**
      * 
      * @param {String} objectStoreName 
      * 
-     * @param {String} url
-     * @param {Date} date
-     * @param {Mixed} data
+     * @param {Object} dataObject
      */
-    async cacheItem(objectStoreName, {url, data}){
+    async cacheItem(objectStoreName, dataObject){
         const db = await openDB(DB_NAME, DB_VERSION);
         
+        
         await db.add(objectStoreName, {
-            url,
+            ...dataObject,
             date: new Date(), 
-            data
         });
     }
 
