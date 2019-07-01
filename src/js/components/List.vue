@@ -6,9 +6,10 @@
         <h5 class="list-title">{{ val.name }}</h5>
         
         <p class="list-info">
-        
-          <template v-if="val._info">
-            <small>{{ val._info.last_visit }}</small>
+
+
+          <template v-if="wasVisited(val.name)">
+            <small>Last visit: {{ formatDate( visits[val.name] ) }}</small>
           </template>
           <template v-else>
             <small>&nbsp;</small>
@@ -36,6 +37,7 @@
 export default {
   props: {
     list: Array,
+    visits: Object,
     loading: Boolean
   },
 
@@ -43,7 +45,16 @@ export default {
     return {};
   },
 
+
+
   methods: {
+    formatDate(date){
+      return window.UiHelpers.formatDate(date);
+    },
+    wasVisited(name){   
+      const keys = Object.keys(this.visits);
+      return keys.length && keys.includes(name);
+    },
     handleIntersected() {
       if (!this.loading) {
         this.$emit("end-of-list");

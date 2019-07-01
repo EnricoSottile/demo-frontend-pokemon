@@ -73,7 +73,7 @@ export default {
   height: 60px;
   margin-bottom: 20px;
   background-color: white;
-  box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.08);
 
   .container-fluid {
     height: 100%;

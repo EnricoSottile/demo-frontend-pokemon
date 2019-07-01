@@ -5,6 +5,7 @@
     <div class="container-fluid app-content">
       <notifications group="global"/>
 
+
       <div class="row">
         <div class="col-xs-12 col-md-6" id="list-column">
           <div class="card">
@@ -15,6 +16,7 @@
               <List
                 :list="pokeList"
                 :loading="isLoadingList"
+                :visits="visits"
                 @end-of-list="getListData"
                 @item-clicked="handleListItemClicked"
               />
@@ -30,7 +32,11 @@
               <button class="slide-card-button" @click="handleUnslideCardWasClicked">hide</button>
             </div>
             <div class="card-body">
-              <Detail v-if="canRenderDetail" :item="pokemon" :loading="isLoadingDetail"/>
+              <Detail 
+              v-show="canRenderDetail" 
+              :item="pokemon" 
+              :loading="isLoadingDetail"
+              @content-ready="handleDetailContentIsReady"/>
             </div>
             <div class="card-footer">...</div>
           </div>
@@ -69,7 +75,8 @@ export default {
       pokeList: [],
       pokemon: {},
 
-      notifications: []
+      notifications: [],
+      visits: {},
     };
   },
 
@@ -106,6 +113,17 @@ export default {
       this.slideCard = false;
       setTimeout(() => this.canRenderDetail = false, 300);
     },
+
+    handleDetailContentIsReady(value){
+      this.addVisitRecord(value.name);
+    },
+
+    // keep track of visits to each item 
+    // TODO: cache 
+    addVisitRecord(name) {
+      Vue.set(this.visits, name, new Date() );
+    },
+
 
 
     // ========================================
@@ -155,10 +173,10 @@ export default {
       } finally {
         this.isLoadingDetail = false;
       }
-    }
+    },
   },
 
-  mounted() {}
+
 };
 </script>
 

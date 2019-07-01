@@ -3,7 +3,7 @@ import '@/main.scss';
 
 
 import UiHelpers from '@/js/common/UiHelpers';
-window.UiHelpers = UiHelpers;
+window.UiHelpers = new UiHelpers();
 
 
 
@@ -14,7 +14,7 @@ import Intersection from '@/js/components/Intersection';
 
 import App from '@/js/App';
 
-
+window.Vue = Vue;
 Vue.use(Notifications)
 Vue.component('Spinner', Spinner)
 Vue.component('Intersection', Intersection)

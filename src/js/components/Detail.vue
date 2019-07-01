@@ -1,6 +1,6 @@
 <template>
   <div>
-        <p>ciao</p>
+
 
         <div v-if="!itemIsEmpty">
             <h3>{{item.forms}}</h3>
@@ -26,6 +26,20 @@ export default {
     return {
 
     };
+  },
+
+  watch: {
+    item() {
+      this.notifyReadyState();
+    }
+  },
+
+  methods: {
+    notifyReadyState(){
+      if ( ! this.itemIsEmpty ) {
+        this.$emit('content-ready', this.item);
+      }
+    }
   },
 
   computed: {
