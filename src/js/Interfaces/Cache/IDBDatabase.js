@@ -78,8 +78,6 @@ class IDBDatabase {
     async addOrOverwrite(objectStoreName, keyPathString, dataObject){
         const db = await openDB(DB_NAME, DB_VERSION);
         const item = await db.get(objectStoreName, keyPathString);
-
-        console.log(objectStoreName, keyPathString, dataObject)
         
         const decoratedDataObject = {
             ...dataObject,
@@ -103,7 +101,6 @@ class IDBDatabase {
      */
     async cacheItem(objectStoreName, dataObject){
         const db = await openDB(DB_NAME, DB_VERSION);
-        
         
         await db.add(objectStoreName, {
             ...dataObject,
