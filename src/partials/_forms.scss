@@ -5,6 +5,11 @@ form {
         margin-bottom: 10px;
         margin-top:10px;
 
+        .error-message {
+            color: rgb(196, 0, 0);
+            display: block;
+        }
+
         input {
             height: 32px;
         }
@@ -104,6 +109,11 @@ form {
         &:active {
             outline: 0;
             box-shadow: 0px 1px 0.5px 0px rgba(39,102,104, 0.7);
+        }
+
+        &.disabled {
+            background-color: grey;
+            box-shadow: 0px 2px 1px 0px rgba(0,0,0, 0.9);
         }
     }
 }

@@ -38,6 +38,7 @@
                 :pokemon="pokemon"
                 :loading="isLoadingDetail"
                 @content-ready="handleDetailContentIsReady"
+                @form-submit="handleFormSubmit"
               />
             </div>
             <div class="card-footer">...</div>
@@ -86,7 +87,7 @@ export default {
       pokeList: [],
       pokemon: {},
 
-      notifications: []
+      notifications: [],
     };
   },
 
@@ -127,6 +128,19 @@ export default {
       this.addVisitRecord(value.name);
     },
 
+    handleFormSubmit(data){
+      // logica salvataggio dati (es: Idb / backend server)
+
+      this.$notify({
+        group: "global",
+        title: "(Demo) - Tutto ok!",
+        text: 'I dati sono stati salvati :)',
+        type: "success",
+        duration: 5000
+      });
+
+    },
+
     // ========================================
     // AJAX
 
@@ -142,7 +156,7 @@ export default {
       } catch (error) {
         this.$notify({
           group: "global",
-          title: "Ops. An error occured!",
+          title: "Ops. Qualcosa è andato storto!",
           text: error,
           type: "error",
           duration: 5000
@@ -165,7 +179,7 @@ export default {
       } catch (error) {
         this.$notify({
           group: "global",
-          title: "Ops. An error occured!",
+          title: "Ops. Qualcosa è andato storto!",
           text: error,
           type: "error",
           duration: 5000

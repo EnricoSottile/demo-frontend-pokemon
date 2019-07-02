@@ -27,31 +27,31 @@
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">
               <label for="demo_text">Demo text</label>
-              <input class="form-control" type="text" name="demo_text">
+              <input v-model="form.demo_text" class="form-control" type="text" name="demo_text">
             </div>
           </div>
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">
               <label for="demo_email">Demo email</label>
-              <input class="form-control" type="email" name="demo_email">
+              <input v-model="form.demo_email" class="form-control" type="email" name="demo_email">
             </div>
           </div>
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">
               <label for="demo_textarea">Demo textarea</label>
-              <textarea class="form-control" rows="5" name="demo_textarea"></textarea>
+              <textarea v-model="form.demo_textarea" class="form-control" rows="5" name="demo_textarea"></textarea>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6">
             <div class="form-group checkbox-holder">
               <label for="demo_checkbox">Demo checkbox</label>
-              <input type="checkbox" name="demo_checkbox" value="demo_checkbox_1">
-              <input type="checkbox" name="demo_checkbox" value="demo_checkbox_2">
+              <input v-model="form.demo_checkbox" type="checkbox" name="demo_checkbox" value="demo_checkbox_1">
+              <input v-model="form.demo_checkbox" type="checkbox" name="demo_checkbox" value="demo_checkbox_2">
             </div>
           </div>
           <div class="col-xs-12">
             <div class="form-group">
-              <button type="submit">Salva</button>
+              <button :class="{'disabled': !checkFormIsValid}" type="submit">Salva</button>
             </div>
           </div>
         </div>
@@ -75,7 +75,17 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+
+      form: {
+        demo_text: '',
+        demo_email: '',
+        demo_textarea: '',
+        demo_checkbox: [],
+      },
+      errors: [],
+
+    };
   },
 
   watch: {
@@ -95,8 +105,24 @@ export default {
       console.log(event.target);
     },
     handleSubmitForm(){
-      console.log("submit");
-    }
+      if (this.checkFormIsValid === false) {
+        this.$notify({
+          group: "global",
+          title: "Form non valido!",
+          text: 'Perfavore, completa tutti i campi',
+          type: "warn",
+          duration: 5000
+        });
+        return;
+      };
+
+      const data = {
+        pokemon: this.pokemon,
+        data: this.form
+      }
+      
+      this.$emit("form-submit", data);      
+    },
   },
 
   computed: {
@@ -109,7 +135,34 @@ export default {
     },
     getPokemonWeight() {
       return this.pokemon.weight / 10 + " kg.";
-    }
+    },
+    checkFormIsValid(){
+      this.errors = [];
+
+      const fields = [
+        'demo_text',
+        'demo_email',
+        'demo_textarea',
+        'demo_checkbox'
+      ];
+
+      fields.forEach(val => {
+        // TODO per form complessi si può visualizzare l'errore
+        // o usare un package apposito più completo
+        let model = this.form[val];
+        if (!model || !model.length) {
+          this.errors.push({
+            name: val,
+            message: `Il campo ${val} è obbligatorio`
+          })
+        }
+      })
+
+
+      if (this.errors.length) return false;
+      return true;
+    },
+
   }
 };
 </script>
