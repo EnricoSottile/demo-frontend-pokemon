@@ -24,7 +24,7 @@ class Api {
         const cacheName = this.database.config.INDEX.objectStoreName;
 
         try {
-            const item = await this._getLiveOrCached(cacheName, url);            
+            const item = await this._getLiveOrCached(cacheName, url);  
             this.router.setRoute('getAll', item.data.next);
             return item;
         } catch (error) {
