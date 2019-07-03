@@ -72,6 +72,7 @@ export default {
   },
 
   mounted() {
+    // From mixin
     this.loadCachedVisits();
   },
 
@@ -143,6 +144,7 @@ export default {
 
     // ========================================
     // AJAX
+
 
     /**
      *

@@ -29,7 +29,7 @@ export default {
 
       /**
        * Delaying the visibility allows for a non breaking Spinner
-       * For those cases when the loading status gets updated real quick
+       * for those cases when the loading status gets updated quickly
        * and would only show a quick glimpse of animation
        */
       handleSpinnerVisibility(newVal, oldVal){
