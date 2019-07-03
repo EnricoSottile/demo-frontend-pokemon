@@ -102,7 +102,7 @@ export default {
     },
     handleLabelWasClicked(val, key, event) {
       // TODO popup/tooltip
-      console.log(event.target);
+      console.log("Demo -> inserire popover")
     },
     handleSubmitForm(){
       if (this.checkFormIsValid === false) {
