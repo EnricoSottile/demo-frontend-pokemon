@@ -1,7 +1,7 @@
 {
   "name": "test-project-frontend",
   "version": "1.0.0",
-  "description": "Frontend test project for Madisoft application",
+  "description": "Frontend test project",
   "main": "src/index.js",
   "scripts": {
     "@cypress:open": "node_modules/.bin/cypress open",

@@ -1,7 +1,7 @@
 <template>
   <nav class="nav">
     <div class="container-fluid">
-      <a href="#" class="brand">Madisoft test project</a>
+      <a href="#" class="brand">Frontend test project</a>
 
       <button @click="showMobileMenu()" class="open">apri menu</button>
 
